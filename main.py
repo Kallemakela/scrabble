@@ -7,8 +7,8 @@ path = 'data/words.txt'
 f = open(path, "r")
 allWords = list(set(f.read().split(',')))
 f.close()
-# only using words that are shorter than 8 chars
-words = [w for w in allWords if len(w) <= 8]
+# only using words that are shorter than 9 chars
+words = [w for w in allWords if len(w) <= 9]
 
 initInput = input(
     '''\n
@@ -22,13 +22,21 @@ cmd = 0 if initInput == '' else int(initInput)
 
 if cmd == 0:
     chars = list(input('Type characters\n'))
+
     mustIncludeInput = input('Must include chars\n')
     mustInclude = None if mustIncludeInput == '' else list(mustIncludeInput)
+
     nthInput = input('Nth letter in form: n letter. 0 is the first letter.\n')
     nth= None if nthInput == '' else (int(nthInput.split(' ')[0]), nthInput.split(' ')[1])
+
     nthLastInput = input('Nth last letter in form: n letter. 1 is the first letter.\n')
     nthLast = None if nthLastInput == '' else (int(nthLastInput.split(' ')[0]), nthLastInput.split(' ')[1])
-    sorted = sortByPoints(findAll(words, chars, mustInclude=mustInclude, nth=nth, nthLast=nthLast))
+
+    jokersInput = input('# of jokers. Default 1.\n')
+    jokers = 1 if jokersInput == '' else int(jokersInput)
+
+    print('\nSearching...\n')
+    sorted = sortByPoints(findAll(words, chars, jokers=jokers, mustInclude=mustInclude, nth=nth, nthLast=nthLast))
     for p in sorted:
         print(p[0] + ' ' + str(p[1]))
 elif cmd == 1:
